@@ -1,0 +1,102 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap');
+
+$primary: rgb(78, 147, 179);
+$secondary: rgb(208, 225, 236);
+$dreiodary: rgb(165, 189, 99);
+$vierodary: rgb(202, 62, 62);
+
+body {
+    margin: 0;
+    font-family: 'Nunito', 'sans-serif';
+    font-size: 18px;
+}
+
+.container {
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.vl {
+    border-left: 3px solid black;
+    height: 100%;
+    margin-left: -3px;
+}
+
+.border {
+    border: 5px solid black;
+}
+
+.active-link {
+    background: darken($primary, 10%);
+}
+.prima {
+    background: $primary;
+}
+
+.left {
+    padding: 1em;
+    width: 50%;
+    float: left;
+    height: 100%;
+}
+  
+.right {
+    padding: 1em;
+    width: 50%;
+    margin-left: 50%;
+    height: 100%;
+}
+
+header {
+    background: $primary;
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    a.logo {
+        font-weight: bold;
+    }
+
+    div {
+        padding: 1em 0;
+    }
+
+    img {
+        height: 20vh;
+        width: 100vw;
+    }
+    nav {
+        float: right;
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            display: flex;
+
+            li a {
+                padding: 1em;
+
+                &:hover {
+                    background: darken($primary, 10%);
+                }
+            }
+        }
+    }
+}
+
+h1 {
+    margin-top: 1em;
+}
+
+body {
+    background: $secondary;
+    div {
+        width: 80%;
+        margin: 0 auto;
+
+    }
+}
