@@ -1,0 +1,25 @@
+version: '3'
+services:
+  frontend:
+    image: nginx
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/client
+    working_dir: /client
+    command: ng serve
+  backend:
+    image: node
+    ports:
+      - 3000:3000
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: npm start
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
