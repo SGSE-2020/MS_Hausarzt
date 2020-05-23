@@ -23,7 +23,7 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: europe-west1-b
   GKE_CLUSTER: smartcity
-  IMAGE: MS_Hausarzt_Backend
+  IMAGE: ms_hausarzt_backend
   REGISTRY_HOSTNAME: gcr.io
   DEPLOYMENT_NAME: MS_Hausarzt
 
