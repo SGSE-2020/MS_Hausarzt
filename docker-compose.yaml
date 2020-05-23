@@ -1,5 +1,13 @@
 version: '3'
 services:
+  frontend:
+    build: ./client
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client:/client
+    working_dir: /client
+    command: ng serve
   backend:
     image: node
     ports:
