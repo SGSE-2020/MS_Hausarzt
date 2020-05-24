@@ -41,7 +41,7 @@ jobs:
       with:
         version: '270.0.0'
         service_account_email: ${{ secrets.GKE_EMAIL }}
-        service_account_key: ${{ secrets.GKE_SA_EY }}
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
         project_id: ${{ secrets.GKE_PROJECT }}
 
     # Configure docker to use the gcloud command-line tool as a credential helper
