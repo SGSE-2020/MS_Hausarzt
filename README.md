@@ -43,5 +43,3 @@
 | Administrator | einen Blick in die Krankenakte der Patienten werfen | die Patienten die beste mögliche Behandlung bekommen | Admin Zugriff | mittel |
 | Administrator | meine Mitarbeiter bezahlen | die Mitarbeiter arbeiten | Admin Zugriff | mittel |
 
-
-test
