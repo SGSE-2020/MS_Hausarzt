@@ -11,6 +11,6 @@ message Status{
 }
 
 message Ueberweisung {
-    string user_id = 1;
+    string userid = 1;
     string reason = 2;
 }
