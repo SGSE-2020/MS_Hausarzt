@@ -14,8 +14,16 @@
       </ul>
     </nav>
   </div>
-</header>
+  <div>
+    <input type="text" placeholder="E-Mail" id="mail_signin"> 
+    <input type="password" placeholder="Passwort" id="password_signin">
+    <button onclick="loginUser()">Sign In</button>
+    <button onclick="logoutUser()">Sign Out</button>
+    <p id="user_loggedin">Keiner eingeloggt</p>
 
+  </div>
+  
+</header>
 
 <div>
   <router-outlet></router-outlet>
