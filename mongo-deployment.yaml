@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\timst\Documents\Master\Projekt_Brunsmann\MS_Hausarzt\kompose-windows-amd64.exe
+      convert
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongo
+  name: mongo
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\timst\Documents\Master\Projekt_Brunsmann\MS_Hausarzt\kompose-windows-amd64.exe
+          convert
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mongo
+    spec:
+      containers:
+      - env:
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: mongo
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: mongo
+        image: mongo
+        name: mongo
+        resources: {}
+      restartPolicy: Always
+status: {}
