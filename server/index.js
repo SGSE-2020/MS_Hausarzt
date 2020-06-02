@@ -11,7 +11,7 @@ var patientenakte = require("./routes/patientenakte");
 
 /* rest Server*/
 var app = express();
-const port = 3000
+const port = 8080
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine","ejs");

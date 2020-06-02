@@ -3,11 +3,11 @@ services:
   frontend:
     build: client/.
     ports:
-      - 8080:80
+      - 80:80
   backend:
     build: server/.
     ports:
-      - 3000:3000
+      - 8080:8080
     depends_on:
       - mongo
   mongo:

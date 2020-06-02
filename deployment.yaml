@@ -1,21 +1,26 @@
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: backend
-  name: backend
+    app: ms-hausarzt
+  name: ms-hausarzt
 spec:
   replicas: 1
   strategy: {}
   template:
     metadata:
       labels:
-        app: backend
+        app: ms-hausarzt
     spec:
       containers:
-      - image: node
-        name: backend
+      - image: ms-hausarzt-frontend
+        name: ms-hausarzt-frontend
         ports:
-        - containerPort: 3000
+        - containerPort: 80
+      - image: ms-hausarzt-backend
+        name: ms-hausarzt-backend
+        ports:
+        - containerPort: 8080
       restartPolicy: Always
 status: {}

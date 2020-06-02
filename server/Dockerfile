@@ -1,5 +1,5 @@
 FROM node
-EXPOSE 3000
+EXPOSE 8080
 COPY . /app
 WORKDIR /app
 RUN npm rebuild
