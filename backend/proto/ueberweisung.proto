@@ -1,0 +1,16 @@
+syntax = "proto3";
+package ueberweisung;
+
+service UeberweisungService {
+    rpc sendUeberweisung(Ueberweisung) returns (Status) {}
+}
+
+message Status{
+    string status = 1;
+    string message = 2;
+}
+
+message Ueberweisung {
+    string userid = 1;
+    string reason = 2;
+}

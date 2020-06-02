@@ -1,0 +1,32 @@
+<header>
+  <img src="../assets/title_bild2.jpg" alt="Selfhtml" />
+  <div>
+    <a routerLink="/home" class="logo">Hausarzt</a>
+    <nav>
+      <ul>
+        <li><a href="#" routerLink="/home" routerLinkActive="active-link">Home</a></li>
+        <li><a href="#" routerLink="/profil" routerLinkActive="active-link">Profil</a></li>
+        <li><a href="#" routerLink="/krankheitsstatistik" routerLinkActive="active-link">Krankheitsstatistik</a></li>
+        <li><a href="#" routerLink="/impressum" routerLinkActive="active-link">Impressum</a></li>
+        <li><a href="#" routerLink="/patientenuebersicht" routerLinkActive="active-link">Patientenübersicht</a></li>
+        <li><a href="#" routerLink="/termine" routerLinkActive="active-link">Termine</a></li>
+        <li><a href="#" routerLink="/mitarbeiteruebersicht" routerLinkActive="active-link">Mitarbeiterübersicht</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div>
+    <!---  exampleuser@test.de   --->
+    <!---  sgse-ss2020   --->
+    <input type="text" placeholder="E-Mail" id="mail_signin"> 
+    <input type="password" placeholder="Passwort" id="password_signin">
+    <button onclick="loginUser()">Sign In</button>
+    <button onclick="logoutUser()">Sign Out</button>
+    <p id="user_loggedin">Keiner eingeloggt</p>
+
+  </div>
+  
+</header>
+
+<div>
+  <router-outlet></router-outlet>
+</div>
