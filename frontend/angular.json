@@ -31,7 +31,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/utils.js"
+              "src/utils.js",
+              "src/scripts/paths.js",
+              "src/scripts/krankheitsstatistik.js"
             ]
           },
           "configurations": {

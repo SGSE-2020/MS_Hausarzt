@@ -10,6 +10,7 @@ RUN npm run build
 
 ### STAGE 2: Run ###
 FROM nginx:alpine
+COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist/client /usr/share/nginx/html
 
 EXPOSE 80
