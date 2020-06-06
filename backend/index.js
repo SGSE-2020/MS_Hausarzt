@@ -5,6 +5,7 @@ const mali = require('mali');
 
 var index = require("./routes/index");
 var patientenakte = require("./routes/patientenakte");
+var test = require("./routes/test_route");
 
 // View engine
 
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use("/", index);
 app.use("/api", patientenakte);
+app.use("/", test);
 
 
 app.listen(port, function(){
@@ -73,3 +75,5 @@ function updatePatientenakte (param){
 gRpcServer.use({sendUeberweisung, updatePatientenakte, getKrankenakte});
 gRpcServer.start("0.0.0.0:50051");
 console.log("gRPC Server running on port: 50051");
+
+module.exports = app
