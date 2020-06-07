@@ -13,6 +13,10 @@ body {
     font-size: 18px;
 }
 
+.hover_effect:hover {
+    background-color: darken($secondary, 20%);
+}
+
 .container {
     width: 80%;
     height: 100%;

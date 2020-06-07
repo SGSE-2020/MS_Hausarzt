@@ -42,18 +42,15 @@ function display_patienten() {
 
                 li = document.createElement('LI');
                 li.setAttribute("id", "li" + i);
+                li.setAttribute("class", "hover_effect");
                 li.innerHTML = name
 
-                button = document.createElement("button")
-                button.setAttribute("id", "button" + i);
-                button.innerHTML = 'name';
-                button.onclick = (function(userid, name) {
+                li.onclick = (function(userid, name) {
                     return function() {
                         display_patientenakte(userid, name);
                     };
                 })(userid, name)
 
-                li.appendChild(button)
                 patienten_list.appendChild(li)
             }
         })
