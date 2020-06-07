@@ -55,14 +55,18 @@ patientenakte_dummy = [{
     }]
 }]
 
-router.get('/patientenakte/:id', function (req, res) {
-    response = patientenakte_dummy[req.params.id-1];
-    //res.set("Access-Control-Allow-Origin", "*");
-    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
-    //res.set('Access-Control-Allow-Credentials', true);
-    res.set('Content-Type', 'application/json');
-    res.status(200);
-    res.json(response);
-  })
+//router.get('/patientenakte/:id', function (req, res) {
+//    response = patientenakte_dummy[req.params.id-1];
+//    //res.set("Access-Control-Allow-Origin", "*");
+//    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
+//    //res.set('Access-Control-Allow-Credentials', true);
+//    res.set('Content-Type', 'application/json');
+//    res.status(200);
+//    res.json(response);
+//})
 
+router.get('/patientenakte/:id', function(req, res, next) {
+    response = patientenakte_dummy[req.params.id-1];
+    res.json(response);
+});
 module.exports = router;

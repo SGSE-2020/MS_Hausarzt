@@ -20,14 +20,18 @@ krankheitsstatistik_dummy = {
 //router.get('/krankheitsstatistik', function(req, res, next) {
 //    res.send(krankheitsstatistik_dummy);
 //});
-router.get('/krankheitsstatistik', function (req, res) {
+//router.get('/krankheitsstatistik', function (req, res) {
+//    response = krankheitsstatistik_dummy;
+//    //res.set("Access-Control-Allow-Origin", "*");
+//    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
+//    //res.set('Access-Control-Allow-Credentials', true);
+//    res.set('Content-Type', 'application/json');
+//    res.status(200);
+//    res.json(response);
+//  })
+router.get('/krankheitsstatistik', function(req, res, next) {
     response = krankheitsstatistik_dummy;
-    //res.set("Access-Control-Allow-Origin", "*");
-    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
-    //res.set('Access-Control-Allow-Credentials', true);
-    res.set('Content-Type', 'application/json');
-    res.status(200);
     res.json(response);
-  })
+});
 
 module.exports = router;
