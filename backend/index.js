@@ -8,7 +8,6 @@ var patientenakte = require("./routes/patientenakte");
 var patienten = require("./routes/patienten");
 var krankheitsstatistik = require("./routes/krankheitsstatistik");
 var test = require("./routes/test_route");
-var cors = require('cors');
 
 // View engine
 
@@ -20,7 +19,6 @@ const port = 8080
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine","ejs");
 app.engine("html", require("ejs").renderFile);
-app.use(cors())
 app.use(express.static(path.join(__dirname, "../client")));
 
 app.use(bodyParser.json());
