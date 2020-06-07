@@ -5,6 +5,7 @@ const mali = require('mali');
 
 var index = require("./routes/index");
 var patientenakte = require("./routes/patientenakte");
+var patienten = require("./routes/patienten");
 var krankheitsstatistik = require("./routes/krankheitsstatistik");
 var test = require("./routes/test_route");
 var cors = require('cors');
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use("/", index);
 app.use("/api", patientenakte);
+app.use("/api", patienten);
 app.use("/api", krankheitsstatistik);
 app.use("/", test);
 
@@ -52,17 +54,17 @@ function sendUeberweisung (param){
 
 function getKrankenakte (param){
     param.res={
-        "userid": "700",
+        "userid": "1",
         "patientenakte": [{
-            "patientenakteid": "hans",
-            "userid": "hans",
-            "datum": "hans",
-            "anamnese": "hans",
-            "symptome": "hans",
-            "diagnose": "hans",
-            "medikation": "hans",
-            "psychischkrank": "hans",
-            "sonstiges": "hans"
+            "patientenakteid": "1",
+            "userid": "1",
+            "datum": "07.06.2020",
+            "anamnese": "Alles tut mir weh",
+            "symptome": "Bauchschmerzen, Gliederschmerzen",
+            "diagnose": "Magen Darm Grippe",
+            "medikation": "Magen Darm Medizin",
+            "psychischkrank": "Nein",
+            "sonstiges": "Ansonsten geht es ihm gut"
         }]
     }
 }

@@ -5,6 +5,7 @@ metadata:
     app: ms-hausarzt
   name: ms-hausarzt
 spec:
+  type: NodePort
   ports:
   - name: "80"
     port: 80

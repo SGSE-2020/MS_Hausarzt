@@ -33,7 +33,8 @@
             "scripts": [
               "src/utils.js",
               "src/scripts/paths.js",
-              "src/scripts/krankheitsstatistik.js"
+              "src/scripts/krankheitsstatistik.js",
+              "src/scripts/patientenuebersicht.js"
             ]
           },
           "configurations": {

@@ -11,7 +11,6 @@ function display_krank_statistik() {
             var content = "";
             var max_anzahl = 0;
             for (i = 0; i < result["Krankheit"].length; i++) {
-                console.log(result["Krankheit"][i])
                 let anzahl = result["Krankheit"][i]["Anzahl"]
                 content = content.concat("<li>" + result["Krankheit"][i]["name"] + ": " + anzahl + " Fälle " + "</li>")
                 if (anzahl > max_anzahl) {
