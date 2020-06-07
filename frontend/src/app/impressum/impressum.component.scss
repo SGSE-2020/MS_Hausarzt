@@ -1,0 +1,13 @@
+
+$primary: rgb(78, 147, 179);
+$secondary: rgb(208, 225, 236);
+
+td {
+    width:"20%";
+    background: darken($secondary, 10%);
+}
+
+th {
+    width:"20%";    
+    background: $primary;
+}
