@@ -22,5 +22,16 @@ spec:
         name: ms-hausarzt-backend
         ports:
         - containerPort: 8080
-      restartPolicy: Always
+      - image: mongo
+        name: ms-hausarzt-db
+        volumeMounts:
+          - mountPath: /data/db
+            name: db
+            subPath: hausarzt-db
+      restartPolicy: Always 
+      volumes:
+        - name: db
+          gcePersistentDisk:
+            pdName: ms-hausarzt
+            fsType: ext4
 status: {}
