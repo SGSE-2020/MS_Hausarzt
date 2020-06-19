@@ -15,14 +15,18 @@ router.use((req, res, next) => {
 router.get('/patientenakte/:id', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {
-            response = undefined
-            for (var elem of result[0]["patienten"]) {
-                if (elem["userid"] == req.params.id) {
-                    response = elem
+            if (result.length > 0) {
+                response = undefined
+                for (var elem of result[0]["patienten"]) {
+                    if (elem["userid"] == req.params.id) {
+                        response = elem
+                    }
                 }
-            }
-            if (response) {
-                res.json(response)
+                if (response) {
+                    res.json(response)
+                } else {
+                    res.status(404).send({'error': 'Patient with id ' + req.params.id + ' not found'})
+                }
             } else {
                 res.status(404).send({'error': 'Patient with id ' + req.params.id + ' not found'})
             }

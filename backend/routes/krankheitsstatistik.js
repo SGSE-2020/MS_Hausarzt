@@ -15,25 +15,29 @@ router.use((req, res, next) => {
 router.get('/krankheitsstatistik', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {
-            response = undefined
-            krankheitsstatistik = {
-            }
+            if (result.length > 0) {
+                response = undefined
+                krankheitsstatistik = {
+                }
 
-            for (var elem of result[0]["patienten"]) {
-                for (var akte of elem["patientenakte"]) {
-                    if (akte["diagnose"] in krankheitsstatistik) {
-                        krankheitsstatistik[akte["diagnose"]] = krankheitsstatistik[akte["diagnose"]] + 1
-                    }
-                    else {
-                        krankheitsstatistik[akte["diagnose"]] = 1
+                for (var elem of result[0]["patienten"]) {
+                    for (var akte of elem["patientenakte"]) {
+                        if (akte["diagnose"] in krankheitsstatistik) {
+                            krankheitsstatistik[akte["diagnose"]] = krankheitsstatistik[akte["diagnose"]] + 1
+                        }
+                        else {
+                            krankheitsstatistik[akte["diagnose"]] = 1
+                        }
                     }
                 }
-            }
 
-            response = krankheitsstatistik
+                response = krankheitsstatistik
 
-            if (response) {
-                res.json(response)
+                if (response) {
+                    res.json(response)
+                } else {
+                    res.status(404).send({'error': 'Krankheitsstatistik not found'})
+                }
             } else {
                 res.status(404).send({'error': 'Krankheitsstatistik not found'})
             }

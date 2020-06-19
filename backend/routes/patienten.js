@@ -14,22 +14,26 @@ router.use((req, res, next) => {
 
 router.get('/patienten/all', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
-        db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {    
-            response = undefined
-            patienten_all = {
-                "patienten": []
-            }
-            for (var elem of result[0]["patienten"]) {
-                delete elem["patientenakte"]
-                patienten_all["patienten"].push(elem)
-            }
-            response = patienten_all
+        db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {
+            if(result.length > 0) {
+                response = undefined
+                patienten_all = {
+                    "patienten": []
+                }
+                for (var elem of result[0]["patienten"]) {
+                    delete elem["patientenakte"]
+                    patienten_all["patienten"].push(elem)
+                }
+                response = patienten_all
 
-            if (response) {
-                res.json(response)
+                if (response) {
+                    res.json(response)
+                } else {
+                    res.status(404).send({'error': 'Patients not found'})
+                }
             } else {
                 res.status(404).send({'error': 'Patients not found'})
-            }        
+            }  
         })
     })
 })
