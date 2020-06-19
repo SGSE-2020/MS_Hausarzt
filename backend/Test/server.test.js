@@ -9,6 +9,7 @@ it('check if test responds', async done => {
     done()
 });
 
+/*
 it('check if krankheitsstatistik responds', async done => {
     const response = await request(app).get('/api/krankheitsstatistik')
     
@@ -29,3 +30,4 @@ it('check if patientenakte with id 3 responds', async done => {
     expect(response.status).toBe(200)
     done()
 });
+*/
