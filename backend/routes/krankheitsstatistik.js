@@ -1,37 +1,44 @@
 var express = require("express");
 var router = express.Router();
+var mongo_connect = require("../index")
 
-krankheitsstatistik_dummy = {
-  "Krankheit": [{
-    "name": "Corona",
-    "Anzahl": 3
-  },
-  {
-    "name": "Erkältung",
-    "Anzahl": 6
-  },
-  {
-    "name": "Magen Darm Grippe",
-    "Anzahl": 8
-  }]
-}
+const DB_PATIENTEN = 'patienten'
 
+router.use((req, res, next) => {
+    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    }
+    next()
+})
 
-//router.get('/krankheitsstatistik', function(req, res, next) {
-//    res.send(krankheitsstatistik_dummy);
-//});
-//router.get('/krankheitsstatistik', function (req, res) {
-//    response = krankheitsstatistik_dummy;
-//    //res.set("Access-Control-Allow-Origin", "*");
-//    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
-//    //res.set('Access-Control-Allow-Credentials', true);
-//    res.set('Content-Type', 'application/json');
-//    res.status(200);
-//    res.json(response);
-//  })
-router.get('/krankheitsstatistik', function(req, res, next) {
-    response = krankheitsstatistik_dummy;
-    res.json(response);
-});
+router.get('/krankheitsstatistik', (req, res) => {
+    mongo_connect.mongo_connect(res, (err, db) => {
+        db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {
+            response = undefined
+            krankheitsstatistik = {
+            }
+
+            for (var elem of result[0]["patienten"]) {
+                for (var akte of elem["patientenakte"]) {
+                    if (akte["diagnose"] in krankheitsstatistik) {
+                        krankheitsstatistik[akte["diagnose"]] = krankheitsstatistik[akte["diagnose"]] + 1
+                    }
+                    else {
+                        krankheitsstatistik[akte["diagnose"]] = 1
+                    }
+                }
+            }
+
+            response = krankheitsstatistik
+
+            if (response) {
+                res.json(response)
+            } else {
+                res.status(404).send({'error': 'Krankheitsstatistik not found'})
+            }
+        })
+    })
+})
 
 module.exports = router;

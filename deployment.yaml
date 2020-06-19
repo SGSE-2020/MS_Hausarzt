@@ -27,7 +27,7 @@ spec:
         volumeMounts:
           - mountPath: /data/db
             name: db
-            subPath: hausarzt-db
+            subPath: hausarzt-db-v1
       restartPolicy: Always 
       volumes:
         - name: db

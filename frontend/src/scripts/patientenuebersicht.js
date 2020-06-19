@@ -30,7 +30,7 @@ function display_patientenakte(user_id, name) {
 
 function display_patienten() {
     fetch(url_patienten + "/all", {
-        method: 'GET'
+        method: 'GET',
     }).then(response => response.json())
         .then(result => {
             var patienten_list = document.getElementById("patienten_list");

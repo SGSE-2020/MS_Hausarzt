@@ -10,17 +10,17 @@ function display_krank_statistik() {
             var krank_warnung = document.getElementById("krank_warnung");
             var content = "";
             var max_anzahl = 0;
-            for (i = 0; i < result["Krankheit"].length; i++) {
-                let anzahl = result["Krankheit"][i]["Anzahl"]
-                content = content.concat("<li>" + result["Krankheit"][i]["name"] + ": " + anzahl + " Fälle " + "</li>")
+            Object.keys(result).forEach(function(k){
+                anzahl = result[k]
+                content = content.concat("<li>" + k + ": " + anzahl + " Fälle " + "</li>")
+                
                 if (anzahl > max_anzahl) {
-                    max_anzahl = i
+                    krank_warnung.innerHTML = "Die Krankheit " + k + " ist gerade im Umlauf. <br>Passt auf euch auf!";
+                    max_anzahl = anzahl
                 }
-
-            }
+            })
 
             krank_list.innerHTML = content;
-            krank_warnung.innerHTML = "Die Krankheit " + result["Krankheit"][max_anzahl]["name"] + " ist gerade im Umlauf. <br>Passt auf euch auf!";
         })
         .catch(error => {
         console.error('Error:', error);

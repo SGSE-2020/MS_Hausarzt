@@ -1,33 +1,37 @@
 var express = require("express");
 var router = express.Router();
+var mongo_connect = require("../index")
 
-patienten_all_dummy = {
-    "patienten": [{
-        "userid": "1",
-        "name": "Daniel Whitehall"
-    },
-    {
-        "userid": "2",
-        "name": "Johann Schmidt"
-    },
-    {
-        "userid": "3",
-        "name": "Gideon Malick"
-    }]
-}
+const DB_PATIENTEN = 'patienten'
 
-//router.get('/patienten/all', function (req, res) {
-//    response = patienten_all_dummy;
-//    //res.set("Access-Control-Allow-Origin", "*");
-//    //res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); 
-//    //res.set('Access-Control-Allow-Credentials', true);
-//    res.set('Content-Type', 'application/json');
-//    res.status(200);
-//    res.json(response);
-//  })
+router.use((req, res, next) => {
+    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    }
+    next()
+})
 
-router.get('/patienten/all', function(req, res, next) {
-    response = patienten_all_dummy;
-    res.json(response);
-});
+router.get('/patienten/all', (req, res) => {
+    mongo_connect.mongo_connect(res, (err, db) => {
+        db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {    
+            response = undefined
+            patienten_all = {
+                "patienten": []
+            }
+            for (var elem of result[0]["patienten"]) {
+                delete elem["patientenakte"]
+                patienten_all["patienten"].push(elem)
+            }
+            response = patienten_all
+
+            if (response) {
+                res.json(response)
+            } else {
+                res.status(404).send({'error': 'Patients not found'})
+            }        
+        })
+    })
+})
+
 module.exports = router;

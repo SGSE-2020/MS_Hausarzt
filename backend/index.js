@@ -2,15 +2,34 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
 const mali = require('mali');
+const mongo = require('mongodb');
 
 var index = require("./routes/index");
 var patientenakte = require("./routes/patientenakte");
 var patienten = require("./routes/patienten");
 var krankheitsstatistik = require("./routes/krankheitsstatistik");
+var setupdb = require("./routes/setupdb");
 var test = require("./routes/test_route");
 
-// View engine
+// mongo
 
+const mongo_client = mongo.MongoClient;
+
+const DB_URL = 'mongodb://localhost'
+const DB_HAUSARZT = 'hausarzt'
+
+function mongo_connect(res, callback) {
+    mongo_client.connect(DB_URL, (err, db) => {
+        if (err) {
+            res.status(500).send({'error': 'Unable to connect to database.'})
+            console.error(err)
+        }
+        else {
+            callback(err, db.db('ms-hausarzt'))
+            db.close()
+        }
+    })
+}
 
 /* rest Server*/
 var app = express();
@@ -27,9 +46,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use("/", index);
 app.use("/api", patientenakte);
 app.use("/api", patienten);
+app.use("/api", setupdb);
 app.use("/api", krankheitsstatistik);
 app.use("/", test);
 
+app.use((req, res, next) => {
+    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    }
+    next()
+})
 
 app.listen(port, function(){
     console.log(`Example app listening at http://localhost:${port}`);
@@ -79,4 +106,9 @@ gRpcServer.use({sendUeberweisung, updatePatientenakte, getKrankenakte});
 gRpcServer.start("0.0.0.0:50051");
 console.log("gRPC Server running on port: 50051");
 
+// db stuff 
+
+
+
+exports.mongo_connect = mongo_connect
 module.exports = app
