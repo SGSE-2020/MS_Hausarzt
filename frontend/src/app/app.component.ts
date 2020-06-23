@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+declare function loginForm(): any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

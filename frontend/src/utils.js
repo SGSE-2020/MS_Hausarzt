@@ -16,8 +16,12 @@ $(document).ready(function () {
         var email = $('#mail_signin').val();
         var password = $('#password_signin').val();
 
+        alert(email)
+        alert(password)
         if(email != undefined && email.length > 0 && password != undefined && password.length > 0){
+            console.log('Hello')
             firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
+                console.log('Hello2')
                 firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
                     //Token zu Bürgerbüro senden -> Uid zurückbekommen -> Dann User validiert
                     alert("Token ist:" + idToken);

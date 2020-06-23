@@ -34,6 +34,7 @@
               "src/utils.js",
               "src/scripts/paths.js",
               "src/scripts/krankheitsstatistik.js",
+              "src/scripts/login.js",
               "src/scripts/patientenuebersicht.js"
             ]
           },
