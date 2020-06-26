@@ -11,13 +11,17 @@
         <!---  <li><a href="#" routerLink="/termine" routerLinkActive="active-link">Termine</a></li>  --->
         <!---  <li><a href="#" routerLink="/mitarbeiteruebersicht" routerLinkActive="active-link">Mitarbeiterübersicht</a></li>  --->
         <li><a href="#" routerLink="/impressum" routerLinkActive="active-link">Impressum</a></li>
-        <li><a onclick="loginForm()">Login</a></li>
+        <li><a id="login_button" onclick="loginForm()">Login</a></li>
+        <li><a id="logout_button" hidden onclick="logoutUser()">Logout</a></li>
         <li><a href="http://portal.dvess.network/">Zurück zum Portal</a></li>
       </ul>
     </nav>
   </div>
     <!---  exampleuser@test.de   --->
     <!---  sgse-ss2020   --->
+
+    <!---  franzfieber@hausarzt.com  --->
+    <!---  hausarzt  --->
     
   <div class="form-popup" id="loginForm">
     <div class="form-container">
@@ -33,8 +37,6 @@
       <button class="btn cancel" onclick="closeForm()">Close</button>
     </div>
   </div>
-
-  <p id="user_loggedin">Keiner eingeloggt</p>
 </header>
 
 <div>

@@ -1,3 +1,6 @@
+var username = "";
+var email = "";
+
 $(document).ready(function () {
     
     //Firebase Initialisierung
@@ -12,42 +15,55 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 });
 
-    function loginUser() {
-        var email = $('#mail_signin').val();
-        var password = $('#password_signin').val();
+function loginUser() {
+    var email_login = $('#mail_signin').val();
+    var password = $('#password_signin').val();
 
-        alert(email)
-        alert(password)
-        if(email != undefined && email.length > 0 && password != undefined && password.length > 0){
-            console.log('Hello')
-            firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-                console.log('Hello2')
-                firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-                    //Token zu Bürgerbüro senden -> Uid zurückbekommen -> Dann User validiert
-                    alert("Token ist:" + idToken);
-                    console.log(firebase.auth().currentUser);
-                    $('#user_loggedin').html(firebase.auth().currentUser.email);
-                }).catch(function(error) {
-                    console.log(error);
-                });
-            }, function(error) {
-                if(error.code == "auth/invalid-email" || error.code == "auth/wrong-password" || error.code == "auth/user-not-found"){
-                    alert("E-Mail oder Passwort falsch oder User existiert nicht");
-                } else if(error.code == "auth/user-disabled"){
-                    alert("Dieser Nutzer ist deaktiviert");
-                } else {
-                    alert(error);
-                }
+    if(email_login != undefined && email_login.length > 0 && password != undefined && password.length > 0){
+        firebase.auth().signInWithEmailAndPassword(email_login, password).then(function(user) {
+            firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+                //Token zu Bürgerbüro senden -> Uid zurückbekommen -> Dann User validiert
+                fetch('https://buergerbuero.dvess.network/api/user/verify/' + idToken, {method: 'POST'}).then(response => response.json()).then(json => {
+                    if (json && json.status == 'success') {
+                        user = firebase.auth().currentUser
+                        console.log(user)
+                        email = user.email
+                        username = user.displayName
+                        document.cookie = 'token=' + idToken + ';'
+                    } else {
+                        alert("Dieser Nutzer konnte nicht verifiziert werden")
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                    alert("Dieser Nutzer konnte nicht verifiziert werden")
+                })
+                document.getElementById("login_button").hidden = true
+                document.getElementById("logout_button").hidden = false
+                console.log("Token ist:\n" + idToken);
+                closeForm()
+            }).catch(function(error) {
+                console.log(error);
             });
-        } else {
-            alert("Bitte Mail und Passwort eingeben"); 
-        }
-    };
+        }, function(error) {
+            if(error.code == "auth/invalid-email" || error.code == "auth/wrong-password" || error.code == "auth/user-not-found"){
+                alert("E-Mail oder Passwort falsch oder User existiert nicht");
+            } else if(error.code == "auth/user-disabled"){
+                alert("Dieser Nutzer ist deaktiviert");
+            } else {
+                alert(error);
+            }
+        });
+    } else {
+        alert("Bitte Mail und Passwort eingeben"); 
+    }
+};
     
-    function logoutUser() {
+function logoutUser() {
 	firebase.auth().signOut().then(function() {
 		//Logout erfolgreich
-        $('#user_loggedin').html("Keiner eingeloggt");
+        document.cookie = 'token=;'
+        document.getElementById("login_button").hidden = false
+        document.getElementById("logout_button").hidden = true
        
 	}, function(error) {
 		alert("Logout fehlgeschlagen");
