@@ -30,6 +30,7 @@ function display_patientenakte(user_id, name) {
 
 function display_patienten() {
     if (document.cookie.length > 20) {
+        console.log(document.cookie)
         fetch(url_patienten + "/all", {
             method: 'GET',
         }).then(response => {
