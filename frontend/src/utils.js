@@ -1,5 +1,6 @@
 var username = "";
 var email = "";
+var userid = "";
 
 $(document).ready(function () {
     
@@ -34,7 +35,9 @@ function loginUser() {
                         console.log(user)
                         email = user.email
                         username = user.displayName
+                        userid = idToken
                         document.cookie = 'token=' + idToken + ';'
+                        //document.cookie = 'username=' + username + ';'
                     } else {
                         alert("Dieser Nutzer konnte nicht verifiziert werden")
                     }

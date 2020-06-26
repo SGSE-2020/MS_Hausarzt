@@ -2,11 +2,26 @@
     <table cellspacing="5" height=100% width=100%>
         <tr>
         <td width=50%>
-            <h2>Kalendar</h2>
+            <div><h2>neues Formular erstellen</h2></div>
+            <div id="patienten_akte_neu">
+            
+                <label><b>Anamnese</b></label>
+                <input type="text" placeholder="Schreibe hier wie du dich fühlst" id="anamnese_input">
+            
+                <label><b>Symptome</b></label>
+                <input type="text" placeholder="Was sind deine Beschwerden" id="symptome_input">
+            
+                <label><b>Sonstiges</b></label>
+                <input type="text" placeholder="Gibt es sonst noch etwas?" id="sonstiges_input">
+            
+                <button onclick="create_new_akte()" class="btn">neue Akte</button>
+            </div>
         </td>
         <td width="10" class="prima"><BR></td>
         <td width=50%>
-            <h2>10.05.2020</h2>
+            <div><h2>Patientenakten</h2></div>
+            
+            <div id="patienten_akte">Du hast noch keine Patientenakte</div>
         </td>
         </tr>
     </table>

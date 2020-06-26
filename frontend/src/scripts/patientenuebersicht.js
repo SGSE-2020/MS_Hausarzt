@@ -5,23 +5,25 @@ function display_patientenakte(user_id, name) {
         method: 'GET'
     }).then(response => response.json())
         .then(result => {
-            var patienten_akte_html = document.getElementById("patienten_akte");
-            var content = "";
-            for (i = 0; i < result["patientenakte"].length; i++) {
-                patienten_akte = result["patientenakte"][i]
-                
-                content = content.concat("<h2> Patientenakte " + i + " - " + name + "</h2>")
-                content = content.concat("<p> Datum: " + patienten_akte["datum"] + "</p>")
-                content = content.concat("<p> Anamese: " + patienten_akte["anamnese"] + "</p>")
-                content = content.concat("<p> Symptome: " + patienten_akte["symptome"] + "</p>")
-                content = content.concat("<p> Diagnose: " + patienten_akte["diagnose"] + "</p>")
-                content = content.concat("<p> Mediaktion: " + patienten_akte["medikation"] + "</p>")
-                content = content.concat("<p> Psychisch Krank: " + patienten_akte["psychischkrank"] + "</p>")
-                content = content.concat("<p> Sonstiges: " + patienten_akte["sonstiges"] + "</p>")
-                content = content.concat("<hr>")
+            if ("patientenakte" in result) {
+                var patienten_akte_html = document.getElementById("patienten_akte");
+                var content = "";
+                for (i = 0; i < result["patientenakte"].length; i++) {
+                    patienten_akte = result["patientenakte"][i]
+                    
+                    content = content.concat("<h2> Patientenakte " + i + " - " + name + "</h2>")
+                    content = content.concat("<p> Datum: " + patienten_akte["datum"] + "</p>")
+                    content = content.concat("<p> Anamese: " + patienten_akte["anamnese"] + "</p>")
+                    content = content.concat("<p> Symptome: " + patienten_akte["symptome"] + "</p>")
+                    content = content.concat("<p> Diagnose: " + patienten_akte["diagnose"] + "</p>")
+                    content = content.concat("<p> Mediaktion: " + patienten_akte["medikation"] + "</p>")
+                    content = content.concat("<p> Psychisch Krank: " + patienten_akte["psychischkrank"] + "</p>")
+                    content = content.concat("<p> Sonstiges: " + patienten_akte["sonstiges"] + "</p>")
+                    content = content.concat("<hr>")
 
+                }
+                patienten_akte_html.innerHTML = content;
             }
-            patienten_akte_html.innerHTML = content;
         })
         .catch(error => {
         console.error('Error:', error);
@@ -30,37 +32,31 @@ function display_patientenakte(user_id, name) {
 
 function display_patienten() {
     if (document.cookie.length > 20) {
-        console.log(document.cookie)
         fetch(url_patienten + "/all", {
             method: 'GET',
-        }).then(response => {
-            if (response.status == 401){ 
-                throw new Error('Nutzer nicht authorisiert');
-            } else if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            response.json()
-        })
+        }).then(response => response.json())
             .then(result => {
-                var patienten_list = document.getElementById("patienten_list");
-                patienten_list.innerHTML = ""
-                var content = "";
-                for (i = 0; i < result["patienten"].length; i++) {
-                    name =  result["patienten"][i]["name"]
-                    userid = result["patienten"][i]["userid"]
+                if ("patienten" in result) {
+                    var patienten_list = document.getElementById("patienten_list");
+                    patienten_list.innerHTML = ""
+                    var content = "";
+                    for (i = 0; i < result["patienten"].length; i++) {
+                        name =  result["patienten"][i]["name"]
+                        userid = result["patienten"][i]["userid"]
 
-                    li = document.createElement('LI');
-                    li.setAttribute("id", "li" + i);
-                    li.setAttribute("class", "hover_effect");
-                    li.innerHTML = name
+                        li = document.createElement('LI');
+                        li.setAttribute("id", "li" + i);
+                        li.setAttribute("class", "hover_effect");
+                        li.innerHTML = name
 
-                    li.onclick = (function(userid, name) {
-                        return function() {
-                            display_patientenakte(userid, name);
-                        };
-                    })(userid, name)
+                        li.onclick = (function(userid, name) {
+                            return function() {
+                                display_patientenakte(userid, name);
+                            };
+                        })(userid, name)
 
-                    patienten_list.appendChild(li)
+                        patienten_list.appendChild(li)
+                    }
                 }
             })
             .catch(error => {
