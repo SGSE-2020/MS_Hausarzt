@@ -29,32 +29,44 @@ function display_patientenakte(user_id, name) {
 }
 
 function display_patienten() {
-    fetch(url_patienten + "/all", {
-        method: 'GET',
-    }).then(response => response.json())
-        .then(result => {
-            var patienten_list = document.getElementById("patienten_list");
-            patienten_list.innerHTML = ""
-            var content = "";
-            for (i = 0; i < result["patienten"].length; i++) {
-                name =  result["patienten"][i]["name"]
-                userid = result["patienten"][i]["userid"]
-
-                li = document.createElement('LI');
-                li.setAttribute("id", "li" + i);
-                li.setAttribute("class", "hover_effect");
-                li.innerHTML = name
-
-                li.onclick = (function(userid, name) {
-                    return function() {
-                        display_patientenakte(userid, name);
-                    };
-                })(userid, name)
-
-                patienten_list.appendChild(li)
+    if (document.cookie.length > 20) {
+        fetch(url_patienten + "/all", {
+            method: 'GET',
+        }).then(response => {
+            if (response.status == 401){ 
+                throw new Error('Nutzer nicht authorisiert');
+            } else if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            response.json()
         })
-        .catch(error => {
-        console.error('Error:', error);
-    });
+            .then(result => {
+                var patienten_list = document.getElementById("patienten_list");
+                patienten_list.innerHTML = ""
+                var content = "";
+                for (i = 0; i < result["patienten"].length; i++) {
+                    name =  result["patienten"][i]["name"]
+                    userid = result["patienten"][i]["userid"]
+
+                    li = document.createElement('LI');
+                    li.setAttribute("id", "li" + i);
+                    li.setAttribute("class", "hover_effect");
+                    li.innerHTML = name
+
+                    li.onclick = (function(userid, name) {
+                        return function() {
+                            display_patientenakte(userid, name);
+                        };
+                    })(userid, name)
+
+                    patienten_list.appendChild(li)
+                }
+            })
+            .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        var patienten_list = document.getElementById("patienten_list");
+        patienten_list.innerHTML = "Anmeldung erforderlich"
+    }
 }

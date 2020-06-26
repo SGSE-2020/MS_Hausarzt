@@ -13,6 +13,11 @@ $(document).ready(function () {
     	    messagingSenderId: "957240233717"
     };
     firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged((user) => {
+        email = null
+        username = null
+        document.cookie = 'token=;'
+    })
 });
 
 function loginUser() {
