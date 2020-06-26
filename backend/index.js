@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mali = require('mali');
 const mongo = require('mongodb');
+const grpc_module = require('grpc')
+const protoLoader = require('@grpc/proto-loader')
+const cookieParser = require('cookie-parser')
 
 var index = require("./routes/index");
 var patientenakte = require("./routes/patientenakte");
@@ -10,6 +13,23 @@ var patienten = require("./routes/patienten");
 var krankheitsstatistik = require("./routes/krankheitsstatistik");
 var setupdb = require("./routes/setupdb");
 var test = require("./routes/test_route");
+
+// grpc
+
+const USER_PROTO = path.resolve(__dirname, './proto/user.proto')
+const PACKAGE_DEFINITION = protoLoader.loadSync(
+    USER_PROTO,
+    {
+        keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    }
+)
+const PCKG_DEF_OBJ = grpc_module.loadPackageDefinition(PACKAGE_DEFINITION)
+const user_route = PCKG_DEF_OBJ.user
+
 
 // mongo
 
@@ -43,11 +63,9 @@ app.use(express.static(path.join(__dirname, "../client")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+app.use(cookieParser())
 app.use("/", index);
-app.use("/api", patientenakte);
-app.use("/api", patienten);
-app.use("/api", setupdb);
-app.use("/api", krankheitsstatistik);
 app.use("/", test);
 
 app.use((req, res, next) => {
@@ -57,6 +75,41 @@ app.use((req, res, next) => {
     }
     next()
 })
+
+app.use('/api', (req, res, next) => {
+    if (res.cookies && res.cookies.uid) {
+        res.status(400).send({'error': 'uid cookie not allowed'})
+    } else {
+        if (req.originalUrl.endsWith('/krankheitsstatistik')) {
+            next()
+        } else {
+            user_token = {
+                token: req.cookies.token
+            }
+            console.log(user_token)
+            console.log(req.cookies)
+            conn = new user_route.UserService('ms-buergerbuero:50051', grpc_module.credentials.createInsecure())
+            conn.verifyUser(user_token, (err, feature) => {
+                if (err) {
+                    res.status(401).send({'error': err})
+                } else {
+                    if (feature.uid && feature.uid != "") {
+                        req.cookies.uid = feature.uid
+                        next()
+                    } else {
+                        res.status(401).send({'error': 'Benutzerverifizierung fehlgeschlagen'})
+                    }
+                }
+            })
+        }
+    }
+})
+
+app.use("/api", patientenakte);
+app.use("/api", patienten);
+app.use("/api", setupdb);
+app.use("/api", krankheitsstatistik);
+
 
 app.listen(port, function(){
     console.log(`Example app listening at http://localhost:${port}`);
