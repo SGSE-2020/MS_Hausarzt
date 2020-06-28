@@ -11,12 +11,14 @@ function display_krank_statistik() {
             var content = "";
             var max_anzahl = 0;
             Object.keys(result).forEach(function(k){
-                anzahl = result[k]
-                content = content.concat("<li>" + k + ": " + anzahl + " Fälle " + "</li>")
-                
-                if (anzahl > max_anzahl) {
-                    krank_warnung.innerHTML = "Die Krankheit " + k + " ist gerade im Umlauf. <br>Passt auf euch auf!";
-                    max_anzahl = anzahl
+                if(k != "") {
+                    anzahl = result[k]
+                    content = content.concat("<li>" + k + ": " + anzahl + " Fälle " + "</li>")
+                    
+                    if (anzahl > max_anzahl) {
+                        krank_warnung.innerHTML = "Die Krankheit " + k + " ist gerade im Umlauf. <br>Passt auf euch auf!";
+                        max_anzahl = anzahl
+                    }
                 }
             })
 

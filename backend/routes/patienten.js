@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mongo_connect = require("../index")
+const bodyParser = require('body-parser');
 
 const DB_PATIENTEN = 'patienten'
 
@@ -14,10 +15,13 @@ function uuidv4() {
 router.use((req, res, next) => {
     if (req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
         res.header('Access-Control-Allow-Origin', '*')
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     }
     next()
 })
+
+router.use(bodyParser.json());
 
 router.get('/patienten/all', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
@@ -63,6 +67,7 @@ router.put('/patienten/update', (req, res) => {
 }) 
 
 router.post('/patienten/create', (req, res) => {
+    console.log(req.body)
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).findOne({"userid":req.body.userid}, (err, db_res) => {
             if (err) {
