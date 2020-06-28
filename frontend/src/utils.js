@@ -1,6 +1,6 @@
-var username = "";
-var email = "";
-var userid = "";
+var username = null;
+var email = null;
+var userid = null;
 
 $(document).ready(function () {
     
@@ -17,6 +17,7 @@ $(document).ready(function () {
     firebase.auth().onAuthStateChanged((user) => {
         email = null
         username = null
+        userid = null
         document.cookie = 'token=;'
     })
 });
@@ -35,7 +36,7 @@ function loginUser() {
                         console.log(user)
                         email = user.email
                         username = user.displayName
-                        userid = idToken
+                        userid = user.uid
                         document.cookie = 'token=' + idToken + ';'
                         //document.cookie = 'username=' + username + ';'
                     } else {

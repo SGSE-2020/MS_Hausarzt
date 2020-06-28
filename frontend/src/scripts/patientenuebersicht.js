@@ -1,4 +1,5 @@
 
+var userid;
 
 function display_patientenakte(user_id, name) {
     fetch(url_patientenakte + "/" + user_id, {
@@ -31,29 +32,31 @@ function display_patientenakte(user_id, name) {
 }
 
 function display_patienten() {
-    if (document.cookie.length > 20) {
+    console.log(userid)
+    if (userid) {
         fetch(url_patienten + "/all", {
             method: 'GET',
         }).then(response => response.json())
             .then(result => {
-                if ("patienten" in result) {
+                console.log(result)
+                if (result.length > 0) {
                     var patienten_list = document.getElementById("patienten_list");
                     patienten_list.innerHTML = ""
                     var content = "";
-                    for (i = 0; i < result["patienten"].length; i++) {
-                        name =  result["patienten"][i]["name"]
-                        userid = result["patienten"][i]["userid"]
+                    for (i = 0; i < result.length; i++) {
+                        name =  result[i]["name"]
+                        userid_ = result[i]["userid"]
 
                         li = document.createElement('LI');
                         li.setAttribute("id", "li" + i);
                         li.setAttribute("class", "hover_effect");
                         li.innerHTML = name
 
-                        li.onclick = (function(userid, name) {
+                        li.onclick = (function(userid_, name) {
                             return function() {
-                                display_patientenakte(userid, name);
+                                display_patientenakte(userid_, name);
                             };
-                        })(userid, name)
+                        })(userid_, name)
 
                         patienten_list.appendChild(li)
                     }
