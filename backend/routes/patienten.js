@@ -32,38 +32,42 @@ router.get('/patienten/all', (req, res) => {
     })
 })
 
+router.get('/removeDB', function(req, res, next) {
+    mongo_connect(res, (err, db) => {
+        db.collection(DB_PATIENTEN).remove()
+        res.status(200);
+    })
+});
+
 /// request.body.userid
 router.post('/patienten/:id', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
-        db.collection(DB_PATIENTEN).findOne({"userid":req.params.id}, (err, db_res) => {
+        db.collection(DB_PATIENTEN).findOne({"userid":req.body.userid}, (err, db_res) => {
             if (err) {
                 res.status(500).send({'error': err})
             } else {
                 if (db_res) {
-                    res.send(db_res)
                     akte = {
-                        "userid": req.params.id,
-                        $push: {
-                            "patientenakte": {
-                                "userid": req.body.userid,
-                                "datum": req.body.datum,
-                                "anamnese": req.body.anamnese,
-                                "symptome": req.body.symptome,
-                                "diagnose": "",
-                                "medikation": "",
-                                "psychischkrank": "",
-                                "sonstiges": req.body.sonstiges
-                            }
-                        }
+                        "userid": req.body.userid,
+                        "datum": req.body.datum,
+                        "anamnese": req.body.anamnese,
+                        "symptome": req.body.symptome,
+                        "diagnose": "",
+                        "medikation": "",
+                        "psychischkrank": "",
+                        "sonstiges": req.body.sonstiges
                     }
+                    
                     mongo_connect.mongo_connect(res, (err, db) => {
-                        db.collection(DB_PATIENTEN).update(akte, (err, db_res) => {
-                            if (err) {
-                                res.status(500).send({'error': err})
-                            } else {
-                                res.send(akte)
+                        db.collection(DB_PATIENTEN).updateOne(
+                            { userid: req.body.userid},
+                            { $addToSet: // $set um zu ändern
+                               {
+                                 "patientenakte": akte              
+                               }
                             }
-                        })
+                         )
+                        res.send(akte)
                     })
                     
                 } else {
