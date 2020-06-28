@@ -4,6 +4,13 @@ var mongo_connect = require("../index")
 
 const DB_PATIENTEN = 'patienten'
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }  
+
 router.use((req, res, next) => {
     if (req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
         res.header('Access-Control-Allow-Origin', '*')
@@ -33,14 +40,29 @@ router.get('/patienten/all', (req, res) => {
 })
 
 router.get('/removeDB', function(req, res, next) {
-    mongo_connect(res, (err, db) => {
+    mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).remove()
         res.status(200);
     })
 });
 
-/// request.body.userid
-router.post('/patienten/:id', (req, res) => {
+router.put('/patienten/update', (req, res) => {    
+    mongo_connect.mongo_connect(res, (err, db) => {
+        db.collection(DB_PATIENTEN).updateOne({ "userid": req.body.userid, "patientenakte.aktenid": req.body.aktenid},
+                                            {$set: {
+                                                "patientenakte.$.symptome":req.body.symptome,
+                                                "patientenakte.$.datum": req.body.datum,
+                                                "patientenakte.$.anamnese": req.body.anamnese,
+                                                "patientenakte.$.diagnose": req.body.diagnose,
+                                                "patientenakte.$.medikation": req.body.medikation,
+                                                "patientenakte.$.psychischkrank": req.body.psychischkrank,
+                                                "patientenakte.$.sonstiges": req.body.sonstiges
+                                            }})
+        res.status(200)
+    })        
+}) 
+
+router.post('/patienten/create', (req, res) => {
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).findOne({"userid":req.body.userid}, (err, db_res) => {
             if (err) {
@@ -48,7 +70,7 @@ router.post('/patienten/:id', (req, res) => {
             } else {
                 if (db_res) {
                     akte = {
-                        "userid": req.body.userid,
+                        "aktenid": uuidv4(),
                         "datum": req.body.datum,
                         "anamnese": req.body.anamnese,
                         "symptome": req.body.symptome,
@@ -75,7 +97,7 @@ router.post('/patienten/:id', (req, res) => {
                         "userid": req.body.userid,
                         "name": req.body.name,
                         "patientenakte": [{
-                            "userid": req.body.userid,
+                            "aktenid": uuidv4(),
                             "datum": req.body.datum,
                             "anamnese": req.body.anamnese,
                             "symptome": req.body.symptome,
