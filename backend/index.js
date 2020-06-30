@@ -60,8 +60,8 @@ app.set("view engine","ejs");
 app.engine("html", require("ejs").renderFile);
 app.use(express.static(path.join(__dirname, "../client")));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: false}));
 
 
 app.use(cookieParser())
@@ -80,7 +80,7 @@ app.use('/api', (req, res, next) => {
     if (res.cookies && res.cookies.uid) {
         res.status(400).send({'error': 'uid cookie not allowed'})
     } else {
-        if (req.originalUrl.endsWith('/krankheitsstatistik')) {
+        if (req.originalUrl.endsWith('/krankheitsstatistik') || req.originalUrl.endsWith('/setupDB') || true==true) {
             next()
         } else {
             user_token = {

@@ -20,7 +20,7 @@ router.get('/krankheitsstatistik', (req, res) => {
                 krankheitsstatistik = {
                 }
 
-                for (var elem of result[0]["patienten"]) {
+                for (var elem of result) {
                     for (var akte of elem["patientenakte"]) {
                         if (akte["diagnose"] in krankheitsstatistik) {
                             krankheitsstatistik[akte["diagnose"]] = krankheitsstatistik[akte["diagnose"]] + 1

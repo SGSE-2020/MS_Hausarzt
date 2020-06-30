@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-declare function display_self(): any;
+declare function find(): any;
+declare function display_patientenakte(user_id, name): any;
+declare var username: any;
+declare var userid: any;
 @Component({
   selector: 'app-termine',
   templateUrl: './termine.component.html',
@@ -11,7 +14,10 @@ export class TermineComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    display_self()
+    find()
+    if (document.cookie.length > 20) {
+      display_patientenakte(userid, username)
+    }
   }
 
 }

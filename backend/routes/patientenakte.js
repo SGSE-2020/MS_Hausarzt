@@ -17,7 +17,7 @@ router.get('/patientenakte/:id', (req, res) => {
         db.collection(DB_PATIENTEN).find({}).toArray((err, result) => {
             if (result.length > 0) {
                 response = undefined
-                for (var elem of result[0]["patienten"]) {
+                for (var elem of result) {
                     if (elem["userid"] == req.params.id) {
                         response = elem
                     }
