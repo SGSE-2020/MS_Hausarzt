@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 declare function find(): any;
-declare function display_patientenakte(user_id, name): any;
+declare function display_patientenakte(user_id, name, read): any;
 declare var username: any;
 declare var userid: any;
 @Component({
@@ -16,7 +16,7 @@ export class TermineComponent implements OnInit {
   ngOnInit(): void {
     find()
     if (document.cookie.length > 20) {
-      display_patientenakte(userid, username)
+      display_patientenakte(userid, username, true)
     }
   }
 
