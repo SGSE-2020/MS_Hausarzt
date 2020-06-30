@@ -80,7 +80,7 @@ app.use('/api', (req, res, next) => {
     if (res.cookies && res.cookies.uid) {
         res.status(400).send({'error': 'uid cookie not allowed'})
     } else {
-        if (req.originalUrl.endsWith('/krankheitsstatistik') || req.originalUrl.endsWith('/setupDB') || true==true) {
+        if (req.originalUrl.endsWith('/krankheitsstatistik') || true==true) {
             next()
         } else {
             user_token = {
