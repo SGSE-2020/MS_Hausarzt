@@ -80,14 +80,12 @@ app.use('/api', (req, res, next) => {
     if (res.cookies && res.cookies.uid) {
         res.status(400).send({'error': 'uid cookie not allowed'})
     } else {
-        if (req.originalUrl.endsWith('/krankheitsstatistik')) {
-        //if (req.originalUrl.endsWith('/krankheitsstatistik') || true==true) {
+        if (req.originalUrl.endsWith('/krankheitsstatistik') || req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
             next()
         } else {
             user_token = {
                 token: req.cookies.token
             }
-            console.log(req.cookies)
             conn = new user_route.UserService('ms-buergerbuero:50051', grpc_module.credentials.createInsecure())
             conn.verifyUser(user_token, (err, feature) => {
                 if (err) {
@@ -95,6 +93,13 @@ app.use('/api', (req, res, next) => {
                 } else {
                     if (feature.uid && feature.uid != "") {
                         req.cookies.uid = feature.uid
+                        if (req.originalUrl.endsWith('/patienten/all')) {
+                            if (req.cookies.uid == "6nhI6tcMvUgUUI4OFKWg4BK5U8O2") {
+                                next()
+                            } else {
+                                res.status(401).send({'error': 'Benutzerverifizierung des Admins fehlgeschlagen'})
+                            }
+                        }
                         next()
                     } else {
                         res.status(401).send({'error': 'Benutzerverifizierung fehlgeschlagen'})
