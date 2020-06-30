@@ -17,7 +17,7 @@ function create_new_akte() {
         "symptome": $('#symptome_input').val(),
         "sonstiges": $('#sonstiges_input').val()
     }
-    fetch("http://localhost:8080/api/patienten/create" , {
+    fetch(url_base + "/patienten/create" , {
         method: 'POST', 
         headers: {
           'Accept': 'application/json',
