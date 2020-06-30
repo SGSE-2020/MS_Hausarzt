@@ -123,32 +123,43 @@ gRpcServer.addService(ueberweisungProtoPath, 'UeberweisungService');
 
 function sendUeberweisung (param){
     param.res={
-        "status":"200",
-        "message":"Hat geklappt"
+        "status":"501",
+        "message":"Überweisungen werden zurzeit nicht entgegen genommen, vielleicht hilft es einen Apfel zu essen"
     }
 }
 
-function getKrankenakte (param){
-    param.res={
-        "userid": "1",
-        "patientenakte": [{
-            "patientenakteid": "1",
-            "userid": "1",
-            "datum": "07.06.2020",
-            "anamnese": "Alles tut mir weh",
-            "symptome": "Bauchschmerzen, Gliederschmerzen",
-            "diagnose": "Magen Darm Grippe",
-            "medikation": "Magen Darm Medizin",
-            "psychischkrank": "Nein",
-            "sonstiges": "Ansonsten geht es ihm gut"
-        }]
+async function getKrankenakte (param){
+    response = {}
+    user_id_ = param.req["userid"]
+    console.log(user_id_)
+    
+    let db = await mongo.MongoClient.connect(DB_URL);
+    let result = await db.db('ms-hausarzt').collection('patienten').find({}).toArray()
+    if (result.length > 0) {
+        console.log(user_id_)
+        for (var elem of result) {
+            if (elem["userid"] == user_id_) {
+                response = elem
+            }
+        }
+        console.log(user_id_)
+        if (!response) {
+            response = {'error': 'Patient with id ' + user_id_ + ' not found'}
+        }
+        console.log(user_id_)
+    } else {
+        response = {'error': 'Patient with id ' + user_id_ + ' not found'}
     }
+    await db.close();
+
+    param.res = response
 }
 
 function updatePatientenakte (param){
+    console.log(param.req)
     param.res={
-        "status":"200",
-        "message":"hat geklappt"
+        "status":"501",
+        "message":"noch nicht implementiert"
     }
 }
  
