@@ -1,7 +1,7 @@
 
 var userid;
 
-function display_patientenakte(user_id, name) {
+function display_patientenakte(user_id, name, read=false) {
     fetch(url_patientenakte + "/" + user_id, {
         method: 'GET'
     }).then(response => response.json())
@@ -12,6 +12,7 @@ function display_patientenakte(user_id, name) {
                 for (i = 0; i < result["patientenakte"].length; i++) {
                     patienten_akte = result["patientenakte"][i]
                     
+                    datum = patienten_akte["aktenid"] + "datum_input"
                     symptome = patienten_akte["aktenid"] + "symptome_input"
                     anamnese = patienten_akte["aktenid"] + "anamnese_input"
                     diagnose = patienten_akte["aktenid"] + "diagnose_input"
@@ -24,7 +25,13 @@ function display_patientenakte(user_id, name) {
                     patienten_akte_html.appendChild(h2)
 
                     p_datum = document.createElement('p');
-                    p_datum.innerHTML = "Datum: " + patienten_akte["datum"]
+                    p_datum.innerHTML = "Datum: "
+
+                    p_datum2 = document.createElement('input');
+                    p_datum2.setAttribute("value", patienten_akte["datum"]);
+                    p_datum2.setAttribute("id", datum);
+                    p_datum2.readOnly = true;
+                    p_datum.appendChild(p_datum2)
                     patienten_akte_html.appendChild(p_datum)
 
                     p_anamnese = document.createElement('label');
@@ -53,6 +60,9 @@ function display_patientenakte(user_id, name) {
                     p_diagnose2 = document.createElement('input');
                     p_diagnose2.setAttribute("id",diagnose);
                     p_diagnose2.setAttribute("type", "text");
+                    if (read) {
+                        p_diagnose2.readOnly = true;
+                    }
                     p_diagnose2.setAttribute("value", patienten_akte["diagnose"]);
                     p_diagnose.appendChild(p_diagnose2)
                     patienten_akte_html.appendChild(p_diagnose)
@@ -63,6 +73,9 @@ function display_patientenakte(user_id, name) {
                     p_medikation2 = document.createElement('input');
                     p_medikation2.setAttribute("id",medikation);
                     p_medikation2.setAttribute("type", "text");
+                    if (read) {
+                        p_medikation2.readOnly = true;
+                    }
                     p_medikation2.setAttribute("value", patienten_akte["medikation"]);
                     p_medikation.appendChild(p_medikation2)
                     patienten_akte_html.appendChild(p_medikation)
@@ -73,6 +86,9 @@ function display_patientenakte(user_id, name) {
                     p_psychisch2 = document.createElement('input');
                     p_psychisch2.setAttribute("id", psychisch);
                     p_psychisch2.setAttribute("type", "text");
+                    if (read) {
+                        p_psychisch2.readOnly = true;
+                    }
                     p_psychisch2.setAttribute("value", patienten_akte["psychischkrank"]);
                     p_psychisch.appendChild(p_psychisch2)
                     patienten_akte_html.appendChild(p_psychisch)
@@ -114,10 +130,8 @@ function display_patientenakte(user_id, name) {
     });
 }
 
-function update_patientenakte(aktenid, user_id) {
-    alert(aktenid)
-    alert(user_id)
-    
+function update_patientenakte(aktenid, user_id) {    
+    datum = "#" + aktenid + "datum_input"
     symptome = "#" + aktenid + "symptome_input"
     anamnese = "#" + aktenid + "anamnese_input"
     diagnose = "#" + aktenid + "diagnose_input"
@@ -127,17 +141,16 @@ function update_patientenakte(aktenid, user_id) {
     akte = {
         "userid": userid,
         "aktenid": aktenid,
-        "datum": today,
+        "datum": $(datum).val(),
         "anamnese": $(anamnese).val(),
         "symptome": $(symptome).val(),
         "diagnose": $(diagnose).val(),
         "medikation": $(medikation).val(),
-        "psychisch": $(psychisch).val(),
+        "psychischkrank": $(psychisch).val(),
         "sonstiges": $(sonstiges).val()
     }
-    console.log(akte)
 
-    fetch("http://localhost:8080/api/patienten/create" , {
+    fetch("http://localhost:8080/api/patienten/update" , {
         method: 'PUT', 
         headers: {
           'Accept': 'application/json',

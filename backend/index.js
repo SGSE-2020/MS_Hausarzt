@@ -153,7 +153,7 @@ function updatePatientenakte (param){
         "message":"hat geklappt"
     }
 }
-
+ 
 /*Launch gRPC server*/
 gRpcServer.use({sendUeberweisung, updatePatientenakte, getKrankenakte});
 gRpcServer.start("0.0.0.0:50051");

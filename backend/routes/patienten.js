@@ -67,7 +67,6 @@ router.put('/patienten/update', (req, res) => {
 }) 
 
 router.post('/patienten/create', (req, res) => {
-    console.log(req.body)
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).findOne({"userid":req.body.userid}, (err, db_res) => {
             if (err) {

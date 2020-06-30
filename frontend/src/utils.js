@@ -33,7 +33,6 @@ function loginUser() {
                 fetch('https://buergerbuero.dvess.network/api/user/verify/' + idToken, {method: 'POST'}).then(response => response.json()).then(json => {
                     if (json && json.status == 'success') {
                         user = firebase.auth().currentUser
-                        console.log(user)
                         email = user.email
                         username = user.displayName
                         userid = user.uid
@@ -48,7 +47,6 @@ function loginUser() {
                 })
                 document.getElementById("login_button").hidden = true
                 document.getElementById("logout_button").hidden = false
-                console.log("Token ist:\n" + idToken);
                 closeForm()
             }).catch(function(error) {
                 console.log(error);
