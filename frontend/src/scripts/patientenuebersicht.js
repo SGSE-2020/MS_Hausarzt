@@ -150,7 +150,7 @@ function update_patientenakte(aktenid, user_id) {
         "sonstiges": $(sonstiges).val()
     }
 
-    fetch("http://localhost:8080/api/patienten/update" , {
+    fetch(url_base + "/patienten/update" , {
         method: 'PUT', 
         headers: {
           'Accept': 'application/json',
