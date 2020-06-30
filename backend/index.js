@@ -93,13 +93,6 @@ app.use('/api', (req, res, next) => {
                 } else {
                     if (feature.uid && feature.uid != "") {
                         req.cookies.uid = feature.uid
-                        if (req.originalUrl.endsWith('/patienten/all')) {
-                            if (req.cookies.uid == "6nhI6tcMvUgUUI4OFKWg4BK5U8O2") {
-                                next()
-                            } else {
-                                res.status(401).send({'error': 'Benutzerverifizierung des Admins fehlgeschlagen'})
-                            }
-                        }
                         next()
                     } else {
                         res.status(401).send({'error': 'Benutzerverifizierung fehlgeschlagen'})
