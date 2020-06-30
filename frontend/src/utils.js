@@ -37,7 +37,11 @@ function loginUser() {
                         username = user.displayName
                         userid = user.uid
                         document.cookie = 'token=' + idToken + ';'
-                        //document.cookie = 'username=' + username + ';'
+                        document.cookie = 'uid=' + userid + ';'
+                        document.getElementById("termine_button").hidden = false
+                        if (userid == "6nhI6tcMvUgUUI4OFKWg4BK5U8O2") {
+                            document.getElementById("patientenuebersicht_button").hidden = false
+                        }
                     } else {
                         alert("Dieser Nutzer konnte nicht verifiziert werden")
                     }
@@ -71,6 +75,8 @@ function logoutUser() {
         document.cookie = 'token=;'
         document.getElementById("login_button").hidden = false
         document.getElementById("logout_button").hidden = true
+        document.getElementById("termine_button").hidden = true
+        document.getElementById("patientenuebersicht_button").hidden = true
        
 	}, function(error) {
 		alert("Logout fehlgeschlagen");
