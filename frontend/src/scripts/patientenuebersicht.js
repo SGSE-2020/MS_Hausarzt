@@ -139,7 +139,7 @@ function update_patientenakte(aktenid, user_id) {
     psychisch = "#" + aktenid + "psychisch_input"
     sonstiges = "#" + aktenid + "sonstiges_input"
     akte = {
-        "userid": userid,
+        "userid": user_id,
         "aktenid": aktenid,
         "datum": $(datum).val(),
         "anamnese": $(anamnese).val(),
