@@ -38,6 +38,7 @@ function loginUser() {
                         userid = user.uid
                         document.cookie = 'token=' + idToken + ';'
                         document.cookie = 'uid=' + userid + ';'
+                        document.getElementById("willkommen_h2").innerHTML = "Willkommen beim Hausarzt " + username
                         document.getElementById("termine_button").hidden = false
                         if (userid == "6nhI6tcMvUgUUI4OFKWg4BK5U8O2") {
                             document.getElementById("patientenuebersicht_button").hidden = false
@@ -75,6 +76,9 @@ function logoutUser() {
         document.cookie = 'token=;'
         document.getElementById("login_button").hidden = false
         document.getElementById("logout_button").hidden = true
+        document.getElementById("willkommen_h2").innerHTML = "Willkommen beim Hausarzt "
+        document.getElementById("password_signin").value = ""
+        document.getElementById("mail_signin").value = ""
         document.getElementById("termine_button").hidden = true
         document.getElementById("patientenuebersicht_button").hidden = true
        
