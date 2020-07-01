@@ -11,27 +11,22 @@
         <li><a href="#" hidden id="patientenuebersicht_button" routerLink="/patientenuebersicht" routerLinkActive="active-link">Patientenübersicht</a></li>
         <!---  <li><a href="#" routerLink="/mitarbeiteruebersicht" routerLinkActive="active-link">Mitarbeiterübersicht</a></li>  --->
         <li><a href="#" routerLink="/impressum" routerLinkActive="active-link">Impressum</a></li>
-        <li><a id="login_button" onclick="loginForm()">Login</a></li>
-        <li><a id="logout_button" hidden onclick="logoutUser()">Logout</a></li>
+        <li><a href="#" routerLink="/home" id="login_button" onclick="loginForm()">Login</a></li>
+        <li><a href="#" routerLink="/home" id="logout_button" hidden onclick="logoutUser()">Logout</a></li>
         <li><a href="http://portal.dvess.network/">Zurück zum Portal</a></li>
       </ul>
     </nav>
   </div>
-    <!---  exampleuser@test.de   --->
-    <!---  sgse-ss2020   --->
-
-    <!---  franzfieber@hausarzt.com  --->
-    <!---  hausarzt  --->
     
   <div class="form-popup" id="loginForm">
     <div class="form-container">
       <h1>Login</h1>
   
       <label><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" value="franzfieber@hausarzt.com" id="mail_signin">
+      <input type="text" placeholder="Enter Email" id="mail_signin">
   
       <label><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" value="hausarzt" id="password_signin">
+      <input type="password" placeholder="Enter Password" id="password_signin">
   
       <button onclick="loginUser()" class="btn">Login</button>
       <button class="btn cancel" onclick="closeForm()">Close</button>

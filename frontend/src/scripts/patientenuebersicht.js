@@ -35,7 +35,7 @@ function display_patientenakte(user_id, name, read=false) {
                     patienten_akte_html.appendChild(p_datum)
 
                     p_anamnese = document.createElement('label');
-                    p_anamnese.innerHTML = "Ananmese: "
+                    p_anamnese.innerHTML = "Anamnese: "
 
                     p_anamnese2 = document.createElement('input');
                     p_anamnese2.setAttribute("id",anamnese);
@@ -52,7 +52,7 @@ function display_patientenakte(user_id, name, read=false) {
                     p_symptome2.setAttribute("type", "text");
                     p_symptome2.setAttribute("value", patienten_akte["symptome"]);
                     p_symptome.appendChild(p_symptome2)
-                    patienten_akte_html.appendChild(p_symptome) // mach das so wie bei anamnese .....................
+                    patienten_akte_html.appendChild(p_symptome)
 
                     p_diagnose = document.createElement('p');
                     p_diagnose.innerHTML = "Diagnose: "
