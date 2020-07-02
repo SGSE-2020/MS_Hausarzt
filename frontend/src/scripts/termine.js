@@ -32,6 +32,7 @@ function create_new_akte() {
                 body: JSON.stringify(akte)
             }).then(response => response.text()
             ).then(response => {
+                alert("Erstellen erfolgreich")
                 display_patientenakte(userid, username, true)
             }).catch((error) => {
                 console.error('Error:', error);
