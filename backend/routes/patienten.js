@@ -53,15 +53,15 @@ router.get('/removeDB', function(req, res, next) {
 router.put('/patienten/update', (req, res) => {    
     mongo_connect.mongo_connect(res, (err, db) => {
         db.collection(DB_PATIENTEN).updateOne({ "userid": req.body.userid, "patientenakte.aktenid": req.body.aktenid},
-                                            {$set: {
-                                                "patientenakte.$.symptome":req.body.symptome,
-                                                "patientenakte.$.datum": req.body.datum,
-                                                "patientenakte.$.anamnese": req.body.anamnese,
-                                                "patientenakte.$.diagnose": req.body.diagnose,
-                                                "patientenakte.$.medikation": req.body.medikation,
-                                                "patientenakte.$.psychischkrank": req.body.psychischkrank,
-                                                "patientenakte.$.sonstiges": req.body.sonstiges
-                                            }})
+            {$set: {
+                "patientenakte.$.symptome":req.body.symptome,
+                "patientenakte.$.datum": req.body.datum,
+                "patientenakte.$.anamnese": req.body.anamnese,
+                "patientenakte.$.diagnose": req.body.diagnose,
+                "patientenakte.$.medikation": req.body.medikation,
+                "patientenakte.$.psychischkrank": req.body.psychischkrank,
+                "patientenakte.$.sonstiges": req.body.sonstiges
+            }})
         res.status(200)
     })        
 }) 
